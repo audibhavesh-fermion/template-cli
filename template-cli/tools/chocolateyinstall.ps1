@@ -141,15 +141,17 @@
 $packageName = 'template-cli'
 $packageVersion = '1.0.0-alpha01'
 # $url = 'https://example.com/your-application.jar'
-$url = './tools/ProjectTemplateCLI.zip'
+$toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+
+$zipFile = Join-Path $toolsDir "ProjectTemplateCLI.zip"
+#$zipFile = "ProjectTemplateCLI.zip"
+Write-Host $zipFile
 $installDir = Join-Path $env:ProgramFiles "TemplateCLI"
 
 
 $installDirBinPath = Join-Path $installDir "/bin/"
 
-
-
-Install-ChocolateyZipPackage -PackageName $packageName -File $url -UnzipLocation $installDir
+Install-ChocolateyZipPackage -PackageName $packageName -File $zipFile -UnzipLocation $installDir
 
 # Set up environment variables
 # [Environment]::SetEnvironmentVariable("TEMPLATE-CLI", $installDirBinPath, "Machine")

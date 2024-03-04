@@ -26,7 +26,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- version should MATCH as closely as possible with the underlying software -->
     <!-- Is the version a prerelease of a version? https://docs.nuget.org/create/versioning#creating-prerelease-packages -->
     <!-- Note that unstable versions like 0.0.1 can be considered a released version, but it's possible that one can release a 0.0.1-beta before you release a 0.0.1 version. If the version number is final, that is considered a released version and not a prerelease. -->
-    <version>1.0.0-alpha0</version>
+    <version>1.0.0-alpha1</version>
     <packageSourceUrl>https://community.chocolatey.org/packages/template-cli/</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
     <owners>Bhavesh Auodichya</owners>
@@ -75,7 +75,6 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
   <files>
     <!-- this section controls what actually gets packaged into the Chocolatey package -->
     <file src="tools\**" target="tools" />
-        <file src="C:\Bhavesh\OpenSource\OpenSource\OpenSourceAndroid\ProjectTemplateCLI\template-cli\lib\ProjectTemplateCLI.zip" target="lib" />
 
   </files>
 </package>
