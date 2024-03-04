@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClass="com.fermion.android.cli.MainKt"
+    mainClass = "com.fermion.android.cli.MainKt"
 }
 
 
@@ -39,3 +39,29 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
+
+tasks.named("installDist") {
+    // Rename the generated script
+    doLast {
+
+        val scriptFileName = "template-cli" // Change to your desired script name
+        val scriptFile = project.file("build/install/${project.name}/bin/${project.name}")
+        val scriptFileBat = project.file("build/install/${project.name}/bin/${project.name}.bat")
+        if (scriptFile.exists()) {
+            val newScriptFile = scriptFile.parentFile.resolve("$scriptFileName${scriptFile.extension}")
+            scriptFile.renameTo(newScriptFile)
+        }
+        if (scriptFileBat.exists()) {
+            val newScriptFileBat = scriptFileBat.parentFile.resolve("$scriptFileName.${scriptFileBat.extension}")
+            scriptFileBat.renameTo(newScriptFileBat)
+        }
+
+    }
+}
+
+task("createZip", Zip::class) {
+//    include("*/*") //to include contents of a folder present inside Reports directory
+    archiveFileName.set("${project.name}.zip")
+    destinationDirectory.set(File("${layout.projectDirectory.asFile.path}/template-cli/lib/"))
+    from("${layout.buildDirectory.asFile.get().path}/install/${project.name}/")
+}.mustRunAfter("installDist")
