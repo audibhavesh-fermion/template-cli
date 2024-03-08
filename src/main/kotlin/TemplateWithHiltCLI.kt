@@ -41,26 +41,43 @@ class TemplateWithHiltCLI : CliktCommand() {
         do {
             mainFileName = KInquirer.promptInput(
                 Res.StyledRes.enterAppClassName,
-                hint = "Class name will be used for naming main classes of you application eg SampleApplication,SampleActivity etc"
+                hint = "Class name will be used for naming main classes of you application eg SampleApplication,SampleActivity and name for other resource."
             ).trim()
 
             if (mainFileName.contains("Activity", ignoreCase = true)) {
                 validPackage = false
-                terminal.println("Class name should not contain activity word.")
+                terminal.println("Name should not contain activity word.")
                 continue
             }
+            if (mainFileName.contains(" ", ignoreCase = true)) {
+                validPackage = false
+                terminal.println("Name should not contain spaces.")
+                continue
+            }
+            val pattern = Regex("[^A-Za-z0-9 ]")
+            if (pattern.containsMatchIn(mainFileName)) {
+                validPackage = false
+                terminal.println("Name should not contain special symbols.")
+                continue
+            }
+            if (mainFileName.contains("Fragment", ignoreCase = true)) {
+                validPackage = false
+                terminal.println("Name should not contain fragment word.")
+                continue
+            }
+
 
             packageName = KInquirer.promptInput(Res.StyledRes.enterPackageName).trim()
 
             if (!packageName.contains(".")) {
                 validPackage = false
-                terminal.println("Package name is not in valid format and does not contain . ")
+                terminal.println("Package name is not in valid format and does not contain.")
                 continue
             }
 
             if (packageName.split(".").size <= 1) {
                 validPackage = false
-                terminal.println("Package name length too small. ")
+                terminal.println("Package name length too small.")
                 continue
             }
 
@@ -69,7 +86,7 @@ class TemplateWithHiltCLI : CliktCommand() {
                 val substring = packageName.substring(index)
                 if (substring == ".") {
                     validPackage = false
-                    terminal.println("Package name is not in valid format and ends with . ")
+                    terminal.println("Package name is not in valid format and ends with.")
                     continue
                 }
             }
@@ -82,9 +99,6 @@ class TemplateWithHiltCLI : CliktCommand() {
 
             validPackage = true
         } while (!validPackage)
-
-
-        terminal.println(appName + " " + packageName)
 
         appName =
             appName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
@@ -656,6 +670,7 @@ class TemplateWithHiltCLI : CliktCommand() {
                 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
                     <uses-permission android:name="android.permission.INTERNET" />
+                    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
                     <application
                         android:allowBackup="true"
@@ -741,37 +756,27 @@ class TemplateWithHiltCLI : CliktCommand() {
             createNewFile()
             writeText(
                 """
-             
+                    # Add project specific ProGuard rules here.
+                    # You can control the set of applied configuration files using the
+                    # proguardFiles setting in build.gradle.
+                    #
+                    # For more details, see
+                    #   http://developer.android.com/guide/developing/tools/proguard.html
 
-             android {
-                 namespace = "$packageName"
-                 compileSdk = 34
+                    # If your project uses WebView with JS, uncomment the following
+                    # and specify the fully qualified class name to the JavaScript interface
+                    # class:
+                    #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+                    #   public *;
+                    #}
 
-                 defaultConfig {
-                     applicationId = "$packageName"
+                    # Uncomment this to preserve the line number information for
+                    # debugging stack traces.
+                    #-keepattributes SourceFile,LineNumberTable
 
-                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                 }
-
-                 buildTypes {
-                     release {
-                         isMinifyEnabled = false
-                         proguardFiles(
-                             getDefaultProguardFile("proguard-android-optimize.txt"),
-                             "proguard-rules.pro"
-                         )
-                     }
-                 }
-                 compileOptions {
-                     sourceCompatibility = JavaVersion.VERSION_17
-                     targetCompatibility = JavaVersion.VERSION_17
-                 }
-
-                 kotlinOptions {
-                     jvmTarget = "17"
-                 }
-             }
-
+                    # If you keep the line number information, uncomment this to
+                    # hide the original source file name.
+                    #-renamesourcefileattribute SourceFile
             """.trimIndent()
             )
         }

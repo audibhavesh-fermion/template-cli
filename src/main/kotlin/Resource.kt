@@ -51,7 +51,7 @@ object Res {
         }
 
         val enterAppName by lazy { "Enter your ${brightGreen("app name")}:" }
-        val enterAppClassName by lazy { "Enter your ${brightGreen("main class name")}:" }
+        val enterAppClassName by lazy { "Enter your ${brightGreen("module name")}:" }
         val enterPackageName by lazy { "Enter your ${brightGreen("package name")}:" }
 
         val enterUserMorseTitle by lazy { "Enter your ${brightGreen("Morse Code")}:" }

@@ -62,6 +62,6 @@ tasks.named("installDist") {
 task("createZip", Zip::class) {
 //    include("*/*") //to include contents of a folder present inside Reports directory
     archiveFileName.set("${project.name}.zip")
-    destinationDirectory.set(File("${layout.projectDirectory.asFile.path}/template-cli/lib/"))
+    destinationDirectory.set(File("${layout.projectDirectory.asFile.path}/template-cli/tools/"))
     from("${layout.buildDirectory.asFile.get().path}/install/${project.name}/")
 }.mustRunAfter("installDist")

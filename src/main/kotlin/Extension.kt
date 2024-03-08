@@ -1,7 +1,6 @@
 package com.fermion.android.cli
 
 import com.github.ajalt.mordant.rendering.TextColors.*
-import com.github.ajalt.mordant.rendering.TextStyles.*
 import com.github.ajalt.mordant.terminal.Terminal
 import onFailure
 import onSuccess
