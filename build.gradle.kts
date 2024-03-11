@@ -43,7 +43,6 @@ kotlin {
 tasks.named("installDist") {
     // Rename the generated script
     doLast {
-
         val scriptFileName = "template-cli" // Change to your desired script name
         val scriptFile = project.file("build/install/${project.name}/bin/${project.name}")
         val scriptFileBat = project.file("build/install/${project.name}/bin/${project.name}.bat")
