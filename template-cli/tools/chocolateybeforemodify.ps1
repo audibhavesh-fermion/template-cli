@@ -7,3 +7,9 @@
 # NOTE: For upgrades - like the uninstall script, this script always runs from
 #  the currently installed version, not from the new upgraded package version.
 
+$installDir = Join-Path $env:ProgramFiles "TemplateCLI"
+
+if (Test-Path $installDir)
+{
+    Remove-Item $installDir -Recurse -Force
+}

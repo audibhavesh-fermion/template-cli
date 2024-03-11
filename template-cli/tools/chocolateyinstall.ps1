@@ -139,26 +139,25 @@
 # ## END PORTABLE EXAMPLE
 
 $packageName = 'template-cli'
-$packageVersion = '1.0.0-alpha01'
+$packageVersion = '1.0.0'
 # $url = 'https://example.com/your-application.jar'
-$toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+$toolsDir = "$( Split-Path -parent $MyInvocation.MyCommand.Definition )"
 
 $zipFile = Join-Path $toolsDir "ProjectTemplateCLI.zip"
 #$zipFile = "ProjectTemplateCLI.zip"
-Write-Host $zipFile
 $installDir = Join-Path $env:ProgramFiles "TemplateCLI"
 
 
 $installDirBinPath = Join-Path $installDir "/bin/"
 
-Install-ChocolateyZipPackage -PackageName $packageName -File $zipFile -UnzipLocation $installDir
+Install-ChocolateyZipPackage -PackageName $packageName -File $zipFile -Checksum "18AFB12B0154F0E4578E7F2C1A985689AF0A88ED16A0968CFF0227D2960A94C2" -ChecksumType "sha256" -UnzipLocation $installDir
 
 # Set up environment variables
 # [Environment]::SetEnvironmentVariable("TEMPLATE-CLI", $installDirBinPath, "Machine")
 
 $currentPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 
-$newPath = "$currentPath;$installDirBinPath"
+$newPath = "$currentPath; $installDirBinPath"
 
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 

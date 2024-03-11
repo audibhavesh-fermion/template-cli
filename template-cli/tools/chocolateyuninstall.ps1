@@ -79,14 +79,17 @@
 
 
 $packageName = 'template-cli'
-$installDir = Join-Path $env:ProgramFiles "TemplateCLI"
 
-Uninstall-ChocolateyPackage -PackageName $packageName
+$toolsDir = "$( Split-Path -parent $MyInvocation.MyCommand.Definition )"
+
+$zipFile = Join-Path $toolsDir "ProjectTemplateCLI.zip"
+
+Uninstall-ChocolateyZipPackage -PackageName $packageName -ZipFileName $zipFile -n --skipautouninstaller
 
 # Remove installed files
-if (Test-Path $installDir) {
-    Remove-Item $installDir -Recurse -Force
-}
+#if (Test-Path $installDir) {
+#    Remove-Item $installDir -Recurse -Force
+#}
 
 # Remove environment variable
 # [Environment]::SetEnvironmentVariable("TEMPLATE-CLI", $null, "Machine")

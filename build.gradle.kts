@@ -64,4 +64,17 @@ task("createZip", Zip::class) {
     archiveFileName.set("${project.name}.zip")
     destinationDirectory.set(File("${layout.projectDirectory.asFile.path}/template-cli/tools/"))
     from("${layout.buildDirectory.asFile.get().path}/install/${project.name}/")
+    finalizedBy("shellExec")
 }.mustRunAfter("installDist")
+
+
+tasks.register<Exec>("shellExec") {
+    workingDir = file("${layout.projectDirectory.asFile.path}/template-cli/tools/")
+    commandLine(
+        "powershell",
+        "Get-FileHash -Path ${layout.projectDirectory.asFile.path}\\template-cli\\tools\\ProjectTemplateCLI.zip"
+    )
+    doLast {
+        println("Executed!")
+    }
+}
